@@ -7,4 +7,8 @@ function calculateTopFive(previousTopFive, newRecipe) {
 
 }
 
-export {formatCase, calculateTopFive}
+function recipeNameExists(newRecipe, allRecipes) {
+
+}
+
+export {formatCase, calculateTopFive, recipeNameExists}
