@@ -1,16 +1,29 @@
 import React, {useState} from 'react';
+import {formatCase, calculateTopFive} from "./Model";
 
 function App() {
-    const [allProducts, setAllProducts] = useState([]);
+    const [allProducts, setAllProducts] = useState(['Milk', 'Onion', 'Potato', 'Sugar']);
     const [productsOfRecipe, setProductsOfRecipe] = useState([]);
-    const [top5, setTop5] = useState([]);
+    const [allRecipes, setAllRecipes] = useState([]);
+    const [topFive, setTopFive] = useState([]);
 
-    function handleAddProduct(){
+    function handleAddProduct(product){
+        product = formatCase(product);
+        if (!allProducts.includes(product))
+            setAllProducts([...allProducts, product].sort());
 
+        productsOfRecipe.includes(product) ?
+            alert('This product is already in recipe!') :
+            setProductsOfRecipe([product, ...productsOfRecipe]);
     }
 
-    function handleSaveRecipe(){
+    function handleSaveRecipe(newRecipe){
+        allRecipes.includes(newRecipe) ?
+            alert('Such recipe already exists!') :
+            setAllRecipes([...allRecipes, newRecipe.sort()]);
 
+        const newTopFive = calculateTopFive(topFive, newRecipe);
+        setTopFive(newTopFive);
     }
 
     return (
@@ -25,14 +38,14 @@ function App() {
                 <button className="add-btn" onClick={() => handleAddProduct()}>Add product</button>
                 <button className="save-btn" onClick={() => handleSaveRecipe()}>Save recipe</button>
                 <div>{productsOfRecipe.map((item, index) =>
-                    <li key={'prod' + index}>item</li>
+                    <li key={'prod' + index}>{item}</li>
                 )}
                 </div>
             </div>
             <div id="top-5">
                 <h2>Top 5 Recipes</h2>
-                {top5.map((item, index) =>
-                    <li key={'top' + index}>item</li>
+                {topFive.map((item, index) =>
+                    <li key={'top' + index}>{item}</li>
                 )}
             </div>
         </div>
