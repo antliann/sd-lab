@@ -1,5 +1,5 @@
 function formatCase(word) {
-    return word[0].toLocaleUpperCase() + word.slice(1, -1).toLocaleLowerCase();
+    return word[0].toLocaleUpperCase() + word.slice(1).toLocaleLowerCase();
 }
 
 

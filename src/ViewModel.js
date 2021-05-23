@@ -7,6 +7,8 @@ function App() {
     const [allRecipes, setAllRecipes] = useState([]);
     const [topFive, setTopFive] = useState([]);
 
+    const [productInput, setProductInput] = useState('');
+
     function handleAddProduct(product){
         product = formatCase(product);
         if (!allProducts.includes(product))
@@ -15,6 +17,7 @@ function App() {
         productsOfRecipe.includes(product) ?
             alert('This product is already in recipe!') :
             setProductsOfRecipe([product, ...productsOfRecipe]);
+        setProductInput('');
     }
 
     function handleSaveRecipe(newRecipe){
@@ -30,12 +33,16 @@ function App() {
         <div id="view">
             <div id="new-recipe">
                 <h2>New Recipe</h2>
-                <input type="text" list="products-list"/>
+                <input
+                    type="text"
+                    list="products-list"
+                    value={productInput}
+                    onChange={({target}) => setProductInput(target.value)}/>
                 <datalist id="products-list">{allProducts.map((item) =>
                     <option value={item}/>
                 )}
                 </datalist>
-                <button className="add-btn" onClick={() => handleAddProduct()}>Add product</button>
+                <button className="add-btn" onClick={() => handleAddProduct(productInput)}>Add product</button>
                 <button className="save-btn" onClick={() => handleSaveRecipe()}>Save recipe</button>
                 <div>{productsOfRecipe.map((item, index) =>
                     <li key={'prod' + index}>{item}</li>
