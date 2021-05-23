@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {formatCase, calculateTopFive} from "./Model";
+import {formatCase, calculateTopFive, recipeNameExists} from "./Model";
 
 function App() {
     const [allProducts, setAllProducts] = useState(['Milk', 'Onion', 'Potato', 'Sugar']);
@@ -8,8 +8,10 @@ function App() {
     const [topFive, setTopFive] = useState([]);
 
     const [productInput, setProductInput] = useState('');
+    const [userNameInput, setUserNameInput] = useState('');
+    const [recipeNameInput, setRecipeNameInput] = useState('');
 
-    function handleAddProduct(product){
+    function handleAddProduct(product) {
         product = formatCase(product);
         if (!allProducts.includes(product))
             setAllProducts([...allProducts, product].sort());
@@ -20,10 +22,18 @@ function App() {
         setProductInput('');
     }
 
-    function handleSaveRecipe(newRecipe){
-        allRecipes.includes(newRecipe) ?
-            alert('Such recipe already exists!') :
-            setAllRecipes([...allRecipes, newRecipe.sort()]);
+    function handleSaveRecipe() {
+        const newRecipe = {
+            userName: userNameInput,
+            recipeName: recipeNameInput,
+            products: productsOfRecipe
+        }
+
+        if (recipeNameExists(newRecipe, allRecipes) &&
+            !window.confirm('Such recipe name already exists! Do you want to save it with name ... ?'))
+            return;
+
+        setAllRecipes([...allRecipes, newRecipe.sort()]);
 
         const newTopFive = calculateTopFive(topFive, newRecipe);
         setTopFive(newTopFive);
@@ -33,6 +43,14 @@ function App() {
         <div id="view">
             <div id="new-recipe">
                 <h2>New Recipe</h2>
+                <input
+                    type="text"
+                    value={userNameInput}
+                    onChange={({target}) => setUserNameInput(target.value)}/>
+                <input
+                    type="text"
+                    value={recipeNameInput}
+                    onChange={({target}) => setRecipeNameInput(target.value)}/>
                 <input
                     type="text"
                     list="products-list"
