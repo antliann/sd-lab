@@ -5,12 +5,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h2 {
+  text-align: center;
+}
+
 #view {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#view > * {
+  margin: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  min-height: 70vh;
 }
 
 #new-recipe {
-  width: 60%;
+
 }
 
 #top-5 {

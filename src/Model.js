@@ -4,11 +4,11 @@ function formatCase(word) {
 
 
 function calculateTopFive(previousTopFive, newRecipe) {
-
+    return [];
 }
 
 function recipeNameExists(newRecipe, allRecipes) {
-
+    return false;
 }
 
 export {formatCase, calculateTopFive, recipeNameExists}
