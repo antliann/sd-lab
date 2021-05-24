@@ -23,9 +23,16 @@ function App() {
     }
 
     function handleSaveRecipe() {
+        const today = new Date();
         const newRecipe = {
             userName: userNameInput,
             recipeName: recipeNameInput,
+            dateTime:
+                (today.getMonth() + 1) + '/' +
+                today.getDate() + '/' +
+                today.getFullYear() + ' ' +
+                today.getHours() + ':' +
+                today.getMinutes(),
             products: productsOfRecipe
         }
 
@@ -37,7 +44,7 @@ function App() {
         setRecipeNameInput('');
         setProductInput('');
         setProductsOfRecipe([]);
-        setAllRecipes([newRecipe, ...allRecipes]);
+        setAllRecipes([newRecipe, ...allRecipes].sort((a, b) => a.dateTime - b.dateTime));
 
         const newTopFive = calculateTopFive(topFive, newRecipe);
         setTopFive(newTopFive);
@@ -47,9 +54,19 @@ function App() {
         <div id="view">
             <div id="top-5">
                 <h2>Top 5 Recipes</h2>
-                {topFive.map((item, index) =>
-                    <li key={'top' + index}>{item}</li>
-                )}
+                <ul>
+                    {topFive.map((recipe) =>
+                        <li key={'top_' + recipe.recipeName}>
+                            {recipe.recipeName}<br/>
+                            {recipe.userName}<br/>
+                            <ul>
+                                {recipe.products.map((product) =>
+                                    <li key={`${recipe.recipeName}_${product}`}>{product}</li>
+                                )}
+                            </ul>
+                        </li>
+                    )}
+                </ul>
             </div>
             <div id="new-recipe">
                 <h2>New Recipe</h2>
@@ -87,21 +104,24 @@ function App() {
                 >
                     Save recipe
                 </button>
-                <div>{productsOfRecipe.map((item, index) =>
-                    <li key={'prod' + index}>{item}</li>
+                <div>{productsOfRecipe.map((item) =>
+                    <li key={'prod_' + item}>{item}</li>
                 )}
                 </div>
             </div>
             <div id="all">
                 <h2>All Recipes</h2>
                 <ul>
-                    {allRecipes.map((item, index) =>
-                        <li key={'top' + index}>
-                            {item.userName}<br/>
-                            {item.recipeName}
+                    {allRecipes.map((recipe) =>
+                        <li key={'recipe_' + recipe.recipeName}>
+                            {recipe.recipeName}<br/>
+                            {recipe.userName}<br/>
+                            {recipe.dateTime}
                             <ul>
-                                {item.products.map((product) =>
-                                    <li>{product}</li>
+                                {recipe.products.map((product) =>
+                                    <li key={`${recipe.recipeName}_${product}`}>
+                                        {product}
+                                    </li>
                                 )}
                             </ul>
                         </li>

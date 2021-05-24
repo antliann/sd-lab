@@ -4,11 +4,15 @@ function formatCase(word) {
 
 
 function calculateTopFive(previousTopFive, newRecipe) {
-    return [];
+    const newTop = [...previousTopFive, newRecipe].sort((a, b) =>
+        b.products.length - a.products.length
+    );
+    return newTop.length < 6 ? newTop : newTop.slice(0, 5);
+    //return [];
 }
 
 function recipeNameExists(newRecipe, allRecipes) {
-    return false;
+    return allRecipes.some((recipe) => recipe.recipeName === newRecipe.recipeName);
 }
 
 export {formatCase, calculateTopFive, recipeNameExists}
