@@ -60,17 +60,15 @@ function App() {
                 <h2>Top 5 Recipes</h2>
                 <ul>
                     {topFive.map((recipe) =>
-                        <li key={'top_' + recipe.recipeName}>
-                            {recipe.recipeName}<br/>
-                            {recipe.userName}<br/>
+                        <li key={'top_' + recipe.recipeName} className="recipe">
+                            <b>{recipe.recipeName}</b><br/>
+                            by user {recipe.userName}<br/>
                             <ul>
                                 {recipe.products.map((product) =>
-                                    <li
-                                        key={`${recipe.recipeName}_${product}`}
-                                    >{product}</li>
+                                    <li key={`${recipe.recipeName}_${product}`}>{product}</li>
                                 )}
                             </ul>
-                            {recipe.topProducts?.join(', ')}
+                            <i>Top product(s): {recipe.topProducts?.join(', ')}</i>
                         </li>
                     )}
                 </ul>
@@ -78,16 +76,21 @@ function App() {
             <div id="new-recipe">
                 <h2>New Recipe</h2>
                 <input
+                    id="user-name-input"
                     type="text"
                     value={userNameInput}
                     placeholder="Your Name"
                     onChange={({target}) => setUserNameInput(target.value)}/>
+                <br/>
                 <input
+                    id="recipe-name-input"
                     type="text"
                     value={recipeNameInput}
                     placeholder="Recipe Name"
                     onChange={({target}) => setRecipeNameInput(target.value)}/>
+                <br/>
                 <input
+                    id="product-input"
                     type="text"
                     list="products-list"
                     value={productInput}
@@ -112,7 +115,7 @@ function App() {
                     Save recipe
                 </button>
                 <div>{productsOfRecipe.map((item) =>
-                    <li key={'prod_' + item}>{item}</li>
+                    <li key={'prod_' + item} className="products">{item}</li>
                 )}
                 </div>
             </div>
@@ -120,10 +123,10 @@ function App() {
                 <h2>All Recipes</h2>
                 <ul>
                     {allRecipes.map((recipe) =>
-                        <li key={'recipe_' + recipe.recipeName}>
-                            {recipe.recipeName}<br/>
-                            {recipe.userName}<br/>
-                            {recipe.dateTime}
+                        <li key={'recipe_' + recipe.recipeName} className="recipe">
+                            <b>{recipe.recipeName}</b><br/>
+                            by user{recipe.userName}<br/>
+                            <i>{recipe.dateTime}</i>
                             <ul>
                                 {recipe.products.map((product) =>
                                     <li key={`${recipe.recipeName}_${product}`}>
