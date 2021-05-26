@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {formatCase, calculateTopFive, recipeNameExists} from "./Model";
+import React, {useEffect, useState} from 'react';
+import {formatCase, calculateTopFive, recipeNameExists, setTopProductsInRecipes} from "./Model";
 
 function App() {
     const [allProducts, setAllProducts] = useState(['Milk', 'Onion', 'Potato', 'Sugar']);
@@ -37,7 +37,7 @@ function App() {
         }
 
         if (recipeNameExists(newRecipe, allRecipes) &&
-            !window.confirm('Such recipe name already exists! Do you want to save it with name ... ?'))
+            alert('Such recipe name already exists!'))
             return;
 
         setUserNameInput('');
@@ -50,6 +50,10 @@ function App() {
         setTopFive(newTopFive);
     }
 
+    useEffect(() => {
+        setTopFive(setTopProductsInRecipes(allProducts, allRecipes, topFive));
+    }, [allRecipes]);
+
     return (
         <div id="view">
             <div id="top-5">
@@ -61,9 +65,12 @@ function App() {
                             {recipe.userName}<br/>
                             <ul>
                                 {recipe.products.map((product) =>
-                                    <li key={`${recipe.recipeName}_${product}`}>{product}</li>
+                                    <li
+                                        key={`${recipe.recipeName}_${product}`}
+                                    >{product}</li>
                                 )}
                             </ul>
+                            {recipe.topProducts?.join(', ')}
                         </li>
                     )}
                 </ul>
