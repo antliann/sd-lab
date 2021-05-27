@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {formatCase, calculateTopFive, recipeNameExists, setTopProductsInRecipes} from "./Model";
+import RecipesFromTopFive from "./RecipesFromTopViewModel";
+import RecipesFromAll from "./RecipesFromAllViewModel";
+import ProductsList from "./ProductsListModelView";
 
 function App() {
     const [allProducts, setAllProducts] = useState(['Milk', 'Onion', 'Potato', 'Sugar']);
@@ -23,6 +26,11 @@ function App() {
     }
 
     function handleSaveRecipe() {
+        if (recipeNameExists(recipeNameInput, allRecipes)) {
+            alert('Such recipe name already exists!');
+            return;
+        }
+
         const today = new Date();
         const newRecipe = {
             userName: userNameInput,
@@ -35,10 +43,6 @@ function App() {
                 today.getMinutes(),
             products: productsOfRecipe
         }
-
-        if (recipeNameExists(newRecipe, allRecipes) &&
-            alert('Such recipe name already exists!'))
-            return;
 
         setUserNameInput('');
         setRecipeNameInput('');
@@ -59,18 +63,7 @@ function App() {
             <div id="top-5">
                 <h2>Top 5 Recipes</h2>
                 <ul>
-                    {topFive.map((recipe) =>
-                        <li key={'top_' + recipe.recipeName} className="recipe">
-                            <b>{recipe.recipeName}</b><br/>
-                            by user {recipe.userName}<br/>
-                            <ul>
-                                {recipe.products.map((product) =>
-                                    <li key={`${recipe.recipeName}_${product}`}>{product}</li>
-                                )}
-                            </ul>
-                            <i>Top product(s): {recipe.topProducts?.join(', ')}</i>
-                        </li>
-                    )}
+                    <RecipesFromTopFive topFive={topFive}/>
                 </ul>
             </div>
             <div id="new-recipe">
@@ -114,28 +107,12 @@ function App() {
                 >
                     Save recipe
                 </button>
-                <div>{productsOfRecipe.map((item) =>
-                    <li key={'prod_' + item} className="products">{item}</li>
-                )}
-                </div>
+                <ProductsList products={productsOfRecipe}/>
             </div>
             <div id="all">
                 <h2>All Recipes</h2>
                 <ul>
-                    {allRecipes.map((recipe) =>
-                        <li key={'recipe_' + recipe.recipeName} className="recipe">
-                            <b>{recipe.recipeName}</b><br/>
-                            by user {recipe.userName}<br/>
-                            <i>{recipe.dateTime}</i>
-                            <ul>
-                                {recipe.products.map((product) =>
-                                    <li key={`${recipe.recipeName}_${product}`}>
-                                        {product}
-                                    </li>
-                                )}
-                            </ul>
-                        </li>
-                    )}
+                    <RecipesFromAll allRecipes={allRecipes}/>
                 </ul>
             </div>
         </div>

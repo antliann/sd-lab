@@ -10,8 +10,8 @@ function calculateTopFive(previousTopFive, newRecipe) {
     return newTop.length < 6 ? newTop : newTop.slice(0, 5);
 }
 
-function recipeNameExists(newRecipe, allRecipes) {
-    return allRecipes.some((recipe) => recipe.recipeName === newRecipe.recipeName);
+function recipeNameExists(recipeName, allRecipes) {
+    return allRecipes.some((recipe) => recipe.recipeName === recipeName);
 }
 
 function setTopProductsInRecipes(allProducts, allRecipes, topFive) {
