@@ -125,7 +125,7 @@ function App() {
                     {allRecipes.map((recipe) =>
                         <li key={'recipe_' + recipe.recipeName} className="recipe">
                             <b>{recipe.recipeName}</b><br/>
-                            by user{recipe.userName}<br/>
+                            by user {recipe.userName}<br/>
                             <i>{recipe.dateTime}</i>
                             <ul>
                                 {recipe.products.map((product) =>
